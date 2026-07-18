@@ -24,6 +24,9 @@ def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bul
     """Start a new game when the player click Play"""
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
+        # Reset the game settings
+        ai_settings.initialize_dynamic_settings()
+
         # Hide the mouse coursor
         pygame.mouse.set_visible(False)
 
@@ -67,7 +70,7 @@ def check_keyup_events(event, ship):
     elif event.key == pygame.K_LEFT:
         ship.moving_left = False
 
-def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button):
+def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button):
     """Update images on the screen and flip to the new screen"""
 
     # Redraw the screen during each pass through the loop
@@ -79,6 +82,9 @@ def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button
     
     ship.blitme()
     aliens.draw(screen)
+
+    # Draw the scoreboard
+    sb.show_score()
 
     # Draw the play button if the game is inactive
     if not stats.game_active:
